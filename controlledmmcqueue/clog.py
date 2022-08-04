@@ -41,11 +41,15 @@ class _CustomFormat(object):
             color_start = "%(color)s"
             color_end = "\033[0m"
 
-        return '%(asctime)s.%(msecs)03d   %(name)s   {color_start}' \
+
+        # %(asctime)s.%(msecs)03d
+        return '%(name)s   {color_start}' \
                '{task_name}[%(levelname).3s] [%(prefix)-3s]   ' \
                '%(message)s{color_end}'.format(task_name=task_name,
                                                color_start=color_start,
                                                color_end=color_end)
+
+
 
 
 class _MessageFilter(logging.Filter):
