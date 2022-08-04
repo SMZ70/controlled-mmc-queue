@@ -95,12 +95,12 @@ class ValueIteration(Learner):
         self.V = None
         self.name = "ValueIteration"
 
-    def learn(self, convergence_threshold: float = 1e-5, log_progress: bool = True):
+    def learn(self, convergence_threshold: float = 1e-5, log_frequency: int = 100):
         """implements the value iteration method.
 
         :param convergence_threshold: controls the stopping criterion. the algorithm stops if maximum change in the
         value of states is smaller than the :convergence_threshold:
-        :param log_progress: if True, the learning progress is logged
+        :param log_frequency: integer indicating the log frequency. If :log_frequency = 0, then there will be no logging
         :type convergence_threshold: float
         """
         v = {tuple(s): 0 for s in self.all_states}
@@ -124,10 +124,13 @@ class ValueIteration(Learner):
                 if delta_v > max_delta_v:
                     max_delta_v = delta_v
 
-            if log_progress:
+            if log_frequency > 0 and i % log_frequency == 0:
                 log.info(f"iter={i:6d}, max_delta_v={max_delta_v:13.8f}", f"LEARN-{self.name}")
 
             if max_delta_v < convergence_threshold:
+                if log_frequency > 0:
+                    log.info(f"iter={i:6d}, max_delta_v={max_delta_v:13.8f}", f"LEARN-{self.name}")
+                    log.success("Learning complete", f"LEARN-{self.name}")
                 break
 
         self.is_trained = True
