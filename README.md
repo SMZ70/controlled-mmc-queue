@@ -27,13 +27,14 @@ rewards, epsilons = tab_q_learner.learn(500,
                                         return_history=True)
 ```
 
-- To run a simple simulation on the system using the learned policy:
+- To run a simple simulation on the system using the learned policy and calculate the expected number of items in the system over `n_reps` replications, each with `n_events` events:
 
 ```python
-learner.simulate(n_events=n_events,
-                 n_reps=n_reps,
-                 verbose=2,
-                 init_state=[0,0,0])
+q_lengths = learner.simulate(n_events=n_events,
+                             n_reps=n_reps,
+                             verbose=2,
+                             init_state=[0,0,0])
+e_q = q_lengths.mean(axis=0)                             
 
 ```
 _For more examples,  and an illustrative comparison of the methods please refer to the [Comparison Jupyter Notebook](comparison.ipynb)_
